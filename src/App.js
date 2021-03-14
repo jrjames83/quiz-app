@@ -24,9 +24,9 @@ function App() {
   const [scrambled, setScrambled] = useState(false);
 
   const [termDefs, modifyTermDefs] = useState([
-    {term: "interphase", def: "phase of the cell cycle where the cell grows, replicates DNA then grows again" },
-    {term: "chromosome", def: "the main ring of DNA in a prokaryotic cell or one of multiple structures made of DNA in a eukaryotic cell" },
-    {term: "mitosis", def: "cell division in a eukaryote that produces two new nuclei which each have the same number of chromosomes as the original cell" }
+    {term: "interphase", def: "phase of the cell cycle where the cell grows, replicates DNA then grows again", isScrambled: false },
+    {term: "chromosome", def: "the main ring of DNA in a prokaryotic cell or one of multiple structures made of DNA in a eukaryotic cell", isScrambled: false },
+    {term: "mitosis", def: "cell division in a eukaryote that produces two new nuclei which each have the same number of chromosomes as the original cell", isScrambled: false }
   ])
 
   useEffect(() => {
@@ -37,10 +37,21 @@ function App() {
        return original;
     })
     modifyTermDefs(scrambled)
-  }, [])
+  }, []) // runs on componentDidMount basically
 
   const toggleScramble = () => {
+    let newState = [];
+    let modified = termDefs.map(item => {
+        let tempRow = item; 
+        tempRow.isScrambled = !tempRow.isScrambled;
+        newState.push(tempRow)
+    })
+    modifyTermDefs(newState)
     setScrambled(!scrambled);
+  }
+
+  const unscrambleDef = () => {
+    console.log('unscrambling')
   }
 
 
@@ -64,7 +75,7 @@ function App() {
             </Button>
           </Col>
         </Row>
-        {termDefs.map(t => (
+        {termDefs.map((t, idx) => (
         <Row className="pt-5">
         <Col>
           <Card style={{ width: 'auto', height:'8rem' }} className="mx-auto justify-content-center">
@@ -77,8 +88,8 @@ function App() {
         </Col>
         <Col>
         <Card style={{  width: 'auto', height:'8rem' }} className="mx-auto justify-content-center" >
-        <Card.Text className="mx-auto p-2">{scrambled ? t.scrambled : t.def}</Card.Text>
-            {scrambled ? 
+        <Card.Text className="mx-auto p-2">{t.isScrambled ? t.scrambled : t.def}</Card.Text>
+            {t.isScrambled ? 
               <Button className="mx-auto" style={{  width: 'auto', height:'2rem'}} variant="primary">Unscramble</Button> : null
             }
           </Card>            
