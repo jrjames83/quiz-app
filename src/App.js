@@ -16,6 +16,7 @@ var shuffle = require('shuffle-array')
 
 function App() {
   const [gameState, setGameState] = useState("hidden");
+  const [activeDef, setActiveDef] = useState("");
   const [score, setScore] = useState(0);
   const [scrambled, setScrambled] = useState(false);
 
@@ -38,7 +39,8 @@ function App() {
   const toggleScramble = () => {
     setScrambled(!scrambled);
   }
-  // Scramble text
+
+
   // or flip througb multiple definitions and rate them, or add to another set!
   // https://stackoverflow.com/questions/55518798/how-to-add-active-class-to-clicked-item-in-reactjs
   // which is a good FITB candidate?
@@ -64,7 +66,7 @@ function App() {
         <Col>
           <Card style={{ width: 'auto', height:'8rem' }} className="mx-auto justify-content-center">
             <Card.Text  className="mx-auto p-2"><h4>{t.term}</h4></Card.Text>
-            <Button onClick={() => setGameState('menu')} className="mx-auto" style={{  width: '5rem', height:'2rem'}} variant="primary">Drill</Button>
+            <Button onClick={() => {setGameState('menu'); setActiveDef(t.term)}} className="mx-auto" style={{  width: '5rem', height:'2rem'}} variant="primary">Drill</Button>
           </Card>          
         </Col>
         <Col>
