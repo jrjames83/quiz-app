@@ -1,31 +1,30 @@
 import React, {useState, useContext} from 'react';
 import {Definitions} from '../Helpers/Definitions';
-import {DefsContext} from '../Helpers/Contexts';
+import {QuizContext} from '../Helpers/Contexts';
+import Button from "react-bootstrap/Button";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-export default function Quiz() {
-    // Idea here is we flip through definitions, give them a thumb up and thumb down
-    // then the user can keep their favorites for another set
-    const {score, setScore, setGameState} = useContext(QuizContext);
-    const [currentDefinition, setCurrentDefinition] = useState(0);
-    const [optionChosen, setOptionChosen] = useState("");
 
-    const nextDefinition = () => {
-        if (Questions[currentQuestion].correctId == optionChosen) {
-            setScore(score + 1);            
+export default function DefRater() {
+    const {gameState, setGameState, activeTerm, setActiveTerm, likedDefs, setLikedDefs } = useContext(QuizContext);
+    const [altDefIndex, setAltDefIndex] = useState(0);
+
+    // Get the array of alternative definitions for the activeDef
+    // type: array of objects
+    const alternativeDefinitions = Definitions.filter(defObject => {
+        return defObject.term == activeTerm;
+    })[0].defs
+
+    const advanceDefintion = (liked) => {
+        if (liked) setLikedDefs([...likedDefs, alternativeDefinitions[altDefIndex].value ]); 
+        if (altDefIndex < alternativeDefinitions.length - 1) {
+            setAltDefIndex(altDefIndex + 1);
+        } else {
+            console.log('ended')
+            setGameState('defEndScreen')
         }
-        setCurrentDefinition(currentQuestion + 1);
-    }
-
-    const finishRating = () => {
-        if (Questions[currentQuestion].correctId == optionChosen) {
-            setScore(score + 1);            
-        }
-        setGameState('endScreen')
-    }
-
-    const handleClick = (answerId) => {
-        console.log('clicked', answerId)
-        setSelectedAnswer(answerId);
     }
 
 
@@ -34,22 +33,14 @@ export default function Quiz() {
             position: 'absolute', left: '50%', top: '50%',
             transform: 'translate(-50%, -50%)'
         }}>
-            <h1>{Questions[currentQuestion].prompt}</h1>
-            <div className="options">
-                {Questions[currentQuestion].answers.map(ans => (
-                    <button key={ans.id} 
-                            className={ans.className + (ans.id === selectedAnswer ? " active_item" : "")}
-                            onClick={() => {setOptionChosen(ans.id); handleClick(ans.id) }}>
-                        {ans.value}
-                    </button>
-                ))}
-            </div>
-            {currentQuestion == Questions.length - 1 ? (
-                <button onClick={() => finishQuiz()}>Finish Quiz</button>
-            ) : (
-                <button onClick = {() => {nextQuestion()}}>Next Question</button>
-            )}
-             
+            <h4 className="p-2">{activeTerm}</h4>
+            <p className="p-2">
+                {alternativeDefinitions[altDefIndex].value}
+            </p>
+            <Row>
+                <Col className="p-2"><FaThumbsUp onClick={() => advanceDefintion(true)} /></Col>
+                <Col className="p-2"><FaThumbsDown onClick={() => advanceDefintion(false)} /></Col>
+            </Row>
         </div>
     )
 }

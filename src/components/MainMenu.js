@@ -9,8 +9,9 @@ export default function MainMenu() {
             position: 'absolute', left: '50%', top: '50%',
             transform: 'translate(-50%, -50%)'
         }}>
-            <button onClick={() => {setGameState('quiz')}}>
-                Start Quiz
+            <h4>Swipe through the definitions</h4>
+            <button onClick={() => {setGameState('defRater')}}>
+                Push to start
             </button>
         </div>
     )

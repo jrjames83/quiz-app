@@ -2,6 +2,7 @@ import "./App.css";
 import React, { useState, useContext, useEffect} from "react";
 import MainMenu from "./components/MainMenu";
 import Quiz from "./components/Quiz";
+import DefRater from "./components/DefRater";
 import EndScreen from "./components/EndScreen";
 import { QuizContext } from "./Helpers/Contexts";
 
@@ -11,12 +12,14 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
+import DefEndScreen from "./components/DefEndScreen";
 
 var shuffle = require('shuffle-array')
 
 function App() {
   const [gameState, setGameState] = useState("hidden");
-  const [activeDef, setActiveDef] = useState("");
+  const [activeTerm, setActiveTerm] = useState("");
+  const [likedDefs, setLikedDefs] = useState([]);
   const [score, setScore] = useState(0);
   const [scrambled, setScrambled] = useState(false);
 
@@ -66,7 +69,10 @@ function App() {
         <Col>
           <Card style={{ width: 'auto', height:'8rem' }} className="mx-auto justify-content-center">
             <Card.Text  className="mx-auto p-2"><h4>{t.term}</h4></Card.Text>
-            <Button onClick={() => {setGameState('menu'); setActiveDef(t.term)}} className="mx-auto" style={{  width: '5rem', height:'2rem'}} variant="primary">Drill</Button>
+            <Button onClick={() => {setGameState('menu'); setActiveTerm(t.term)}} 
+                    className="mx-auto" style={{  width: '5rem', height:'2rem'}} variant="primary">
+                    Drill
+            </Button>
           </Card>          
         </Col>
         <Col>
@@ -82,11 +88,13 @@ function App() {
       </Container>
 
       <QuizContext.Provider
-        value={{ gameState, setGameState, score, setScore }}
+        value={{ gameState, setGameState, activeTerm, setActiveTerm, likedDefs, setLikedDefs}}
       >
         {gameState === "menu" && <MainMenu  />}
         {gameState === "quiz" && <Quiz />}
+        {gameState === "defRater" && <DefRater />}
         {gameState === "endScreen" && <EndScreen />}
+        {gameState === "defEndScreen" && <DefEndScreen />}
       </QuizContext.Provider>
     </div>
   );
