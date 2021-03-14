@@ -50,6 +50,20 @@ function App() {
     setScrambled(!scrambled);
   }
 
+  const unScrambleDefByIndex = (index) => {
+    let newState = [];
+    let modified = termDefs.map((item ,i) => {
+        if (i == index) {
+          let tempRow = item; 
+          tempRow.isScrambled = !tempRow.isScrambled;
+          newState.push(tempRow)
+        } else {
+          newState.push(item)
+        }
+    })
+    modifyTermDefs(newState)
+  }
+
   const unscrambleDef = () => {
     console.log('unscrambling')
   }
@@ -90,7 +104,11 @@ function App() {
         <Card style={{  width: 'auto', height:'8rem' }} className="mx-auto justify-content-center" >
         <Card.Text className="mx-auto p-2">{t.isScrambled ? t.scrambled : t.def}</Card.Text>
             {t.isScrambled ? 
-              <Button className="mx-auto" style={{  width: 'auto', height:'2rem'}} variant="primary">Unscramble</Button> : null
+              <Button className="mx-auto" 
+              style={{  width: 'auto', height:'2rem'}} 
+              variant="primary"
+              onClick = {() => unScrambleDefByIndex(idx)}
+              >Unscramble</Button> : null
             }
           </Card>            
         </Col>
