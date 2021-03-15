@@ -64,9 +64,17 @@ function App() {
     modifyTermDefs(newState)
   }
 
-  const unscrambleDef = () => {
-    console.log('unscrambling')
+  const clearScramble = () => {
+    let newState = [];
+    let modified = termDefs.map(item => {
+        let tempRow = item; 
+        tempRow.isScrambled = false;
+        newState.push(tempRow)
+    })
+    modifyTermDefs(newState)
+    setScrambled(false);
   }
+
 
 
   // or flip througb multiple definitions and rate them, or add to another set!
@@ -85,8 +93,13 @@ function App() {
         <Row>
           <Col >
             <Button className="float-right" 
+                // onClick = {() => toggleScramble()}>{scrambled ? 'Unscramble': 'Scramble'}
                 onClick = {() => toggleScramble()}>{scrambled ? 'Unscramble': 'Scramble'}
             </Button>
+            {
+              scrambled ? <Button className="float-right" onClick = {() => clearScramble()}>Reset</Button> : null
+            }
+                        
           </Col>
         </Row>
         {termDefs.map((t, idx) => (
