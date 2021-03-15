@@ -9,7 +9,7 @@ export default function MainMenu() {
             position: 'absolute', left: '50%', top: '50%',
             transform: 'translate(-50%, -50%)'
         }}>
-            <h4>Swipe through the definitions</h4>
+            <h4>Practice by rating more definitions!</h4>
             <button onClick={() => {setGameState('defRater')}}>
                 Push to start
             </button>
