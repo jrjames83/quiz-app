@@ -91,6 +91,23 @@ function App() {
 
       <Container>
         <Row>
+          <Col className="col-md-2"></Col>
+          <Col><h3 className="p-2">What's this about?</h3>
+          <p>This is a set page prototype that describes 2 kinds of study behaviors we could consider to 
+            augment the current set-page experience. I'm calling this "mid funnel" studying, which is widely applicable to almost any user segment who doesn't actively use our advanced modes. </p>
+            <ul>
+              <li>First, we can drill the word side by letting users rate our alternate definitions, later adding to a set</li>
+              <li>Secondly, to prevent "just reading" the definition, we can enable scramble mode, allowing them to stare at 
+                an assortment of words, rather than the entire definition, and unscramble if they need help. 
+              </li>
+            </ul>
+            </Col>
+            <Col className="col-md-2"></Col>
+          
+
+          
+        </Row>
+        <Row>
           <Col >
             <Button className="float-right" 
                 // onClick = {() => toggleScramble()}>{scrambled ? 'Unscramble': 'Scramble'}
